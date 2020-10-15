@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ElectoShark</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="static/thunder-favicon.png" type="image/png" />
+    <script src="static/angular.min.js"></script>
+    <script src="static/UserLogin.js"></script>
+    <script src="static/ElectricityController.js"></script>
+</head>
+
+<body class="login">
+
+    <div class="bgmask">
+        <div class="main-login col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3"
+            style="margin-top:100px;text-align:center;">
+            <div class="voicesnaplogo">
+                <img src="static/lg1.png" />
+            </div>
+
+            <div class="form-group">
+                <span class="input-icon">
+                    <i id="user_icon" class="fa fa-user" style="display:inline-block"></i>
+                    <input type="text" class="inputbox" placeholder="Enter your Meter Id" id="meter_id" name="username"
+                        style="margin-bottom: 10px;" autofocus />
+                </span>
+            </div>
+            <div class="form-group">
+                <span class="input-icon">
+                    <i id="lock_icon" class="fa fa-lock" style="display:inline-block"></i>
+                    <input type="password" class="inputbox" placeholder="Enter your Password" id="user_pass"
+                        name="password" style="margin-bottom: 10px;" />
+                </span>
+            </div>
+            <div class="form-actions text-center">
+                <span class="text-danger" id="error_msg"></span>
+            </div>
+            <div class="form-actions">
+                <center>
+                    <button type="submit" class="submit-button" id="submit" onclick="login()">
+                        Login &nbsp;<i class="fa fa-arrow-circle-right"></i>
+                    </button>
+                </center>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    var input = document.getElementById("user_pass");
+    input.addEventListener("keyup", function (event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            document.getElementById("submit").click();
+        }
+    });
+
+    $('#phone_number').focusin(function () {
+        document.getElementById("user_icon").style.color = "aqua";
+    });
+    $('#phone_number').focusout(function () {
+        document.getElementById("user_icon").style.color = "#f2ff3c";
+    });
+    $('#user_pass').focusin(function () {
+        document.getElementById("lock_icon").style.color = "aqua";
+    });
+    $('#user_pass').focusout(function () {
+        document.getElementById("lock_icon").style.color = "#f2ff3c";
+    });
+
+    function login() {
+        var meter_id = document.getElementById("meter_id").value;
+        var user_pass = document.getElementById("user_pass").value;
+        console.log(meter_id, user_pass);
+
+        $.post('/login', { "meter_id": meter_id, "user_pass": user_pass }, function (data) {
+            console.log("test");
+            console.log(data.result);
+            if (data.result.status == "1") {
+                window.location.href = 'load_user_details';
+            }
+            else if (data.result.status == "2") {
+                window.location.href = 'load_user_login';
+            }
+            else if (data.result.status == "0") {
+                console.log(data.result.error);
+                document.getElementById("error_msg").innerText = data.result.error;
+            }
+
+        });
+        //console.log(success);
+        //$scope.electricity=success;
+        //window.load()    
+
+        //     $.ajax({
+        //     url: '/charting',
+        //     dataType: 'json'
+        //   }).done(function ({{ jsonData }}) {
+        //     loadData(jsonData);
+        //   });
+        // });
+
+    }
+</script>
+
+<!-- <script src="{{ url_for('static', filename='UserLogin.js') }}"></script> -->
+
+<style type="text/css">
+    body.login {
+        color: #7F7F7F;
+    }
+
+    body::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 1;
+        z-index: -1;
+        background: url('static/electric_bg_1.jpg') repeat !important;
+        /* background: url('images/Schools_bg_1.jpg') repeat !important; */
+        min-height: 600px;
+    }
+
+    .bgmask {
+        background: rgba(0, 0, 0, 0.70);
+        width: 100%;
+        height: 100vh;
+        float: left;
+        min-height: 637px;
+    }
+
+    .text-danger {
+        color: rgb(255, 0, 0)
+    }
+
+    .inputbox {
+        font-family: Montserrat-Bold;
+        font-size: 15px;
+        line-height: 1.2;
+        color: #333333;
+        display: block;
+        width: 70%;
+        background: #fff;
+        height: 50px;
+        border-radius: 50px;
+        padding: 10px 10px 10px 20px;
+        border: none;
+        display: inline-block;
+    }
+
+    .inputbox:focus {
+        outline: none;
+        border: solid;
+        background-color: aliceblue;
+        border-color: rgba(64, 105, 245, 1.5);
+        box-shadow: 0 0 8px rgba(64, 105, 245, 0.5);
+    }
+
+    i:target {
+        color: antiquewhite;
+    }
+
+    .voicesnaplogo {
+        padding-left: 50px;
+        margin-bottom: 20px;
+    }
+
+    .input-icon>[class*=fa-],
+    .input-icon>[class*=clip-] {
+        padding: 2px 15px;
+        font-size: 18px !important;
+        color: #f2ff3c;
+    }
+
+    .input-icon>input {
+        padding-left: 45px;
+    }
+
+    .submit-button {
+        font-family: Montserrat-Bold;
+        font-size: 15px;
+        line-height: 1.2;
+        color: #333333;
+        display: block;
+        width: 40%;
+        background: #fff;
+        height: 50px;
+        border-radius: 50px;
+        padding: 10px 10px 10px 10px;
+        border: none;
+        margin-left: 40px;
+    }
+
+    .submit-button:focus {
+        outline: none;
+        border: solid;
+        background-color: lightcyan;
+        border-color: rgba(42, 0, 255, 0.88);
+        box-shadow: 0 0 8px rgba(64, 105, 245, 0.5);
+    }
+</style>

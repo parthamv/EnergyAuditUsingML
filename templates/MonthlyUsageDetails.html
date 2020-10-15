@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html>
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AppDashboard</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="static/thunder-favicon.png" type="image/png" />
+    <script src="static/angular.min.js"></script>
+    <script src="static/UserLogin.js"></script>
+</head>
+
+<body class="main">
+    <div class="col-md-12" ng-app="ElectricityUser" ng-controller="UserController">
+        <div class="nbar">
+
+            <div style="display:block;" class="navbar-logo">
+                <img style="display:block;" src="static/lg1-navbar.png" />
+            </div>
+            <ul>
+                <li><a href="/load_user_details">
+                        <i style="display:block;" id="input-icon" class="fa fa-home fa-2x"></i>
+                        Home
+                    </a></li>
+                <li><a href="/change_password">
+                        <i style="display:block;" id="input-icon" class="fa fa-key fa-2x"></i>
+                        Password
+                    </a></li>
+                <li><a href="#">
+                        <i style="display:block;" id="input-icon" class="fa fa-book fa-2x"></i>
+                        FAQ
+                    </a></li>
+            </ul>
+            <div>
+                <a href="/" style="display:block;" class="navbar-logout">
+                    <i style="display:block;" id="input-icon" class="fa fa-remove fa-2x"></i>
+                    Logout
+                </a>
+            </div>
+        </div>
+        <div style="display:block;text-align: center;">
+            <div class="role_heading">
+                <h4>Monthly Usage Details</h4>
+            </div>
+            <div style="margin-left: 20px;">
+                <div style="display:block;margin: 15px 0px 10px 0px;text-align: center;margin-bottom: 10px;">
+                    <div style="display:inline-block; margin-right: 15px;">
+                        <label style="display:inline-block;margin-top:5px;" id="month_val1">August(08/2019): </label>
+                    </div>
+                    <div style="display:inline-block;">
+                        <input type="text" class="form-control" id="month1" placeholder="Enter units..." autofocus />
+                    </div>
+                </div>
+                <div style="display:block;margin: 15px 0px 10px 0px;text-align: center;margin-bottom: 10px;">
+                    <div style="display:inline-block;margin-right: 38px;">
+                        <label style="display:inline-block;margin-top:5px;" id="month_val2">July(07/2019): </label>
+                    </div>
+                    <div style="display:inline-block;">
+                        <input type="text" class="form-control" id="month2" placeholder="Enter units..." />
+                    </div>
+                </div>
+                <div style="display:block;margin: 15px 0px 10px 0px;text-align: center;margin-bottom: 10px;">
+                    <div style="display:inline-block;margin-right: 15px;">
+                        <label style="display:inline-block;margin-top:5px;" id="month_val3">June(06/2019): </label>
+                    </div>
+                    <div style="display:inline-block;">
+                        <input type="text" class="form-control" id="month3" placeholder="Enter units..." />
+                    </div>
+                </div>
+
+                <div style="display:block;margin: 15px 0px 10px 0px;text-align: center;margin-bottom: 10px;">
+                    <div style="display:inline-block;margin-right: 15px;">
+                        <label style="display:inline-block;margin-top:5px;" id="month_val4">May(05/2019): </label>
+                    </div>
+                    <div style="display:inline-block;">
+                        <input type="text" class="form-control" id="month4" placeholder="Enter units..." />
+                    </div>
+                </div>
+                <div style="display:block;margin: 15px 0px 10px 0px;text-align: center;margin-bottom: 10px;">
+                    <div style="display:inline-block;margin-right: 15px;">
+                        <label style="display:inline-block;margin-top:5px;" id="month_val5">April(04/2019): </label>
+                    </div>
+                    <div style="display:inline-block;">
+                        <input type="text" class="form-control" id="month5" placeholder="Enter units..." />
+                    </div>
+                </div>
+                <div style="display:block;margin: 15px 0px 10px 0px;text-align: center;margin-bottom: 10px;">
+                    <div style="display:inline-block;margin-right: 15px;">
+                        <label style="display:inline-block;margin-top:5px;" id="month_val6">March(03/2019): </label>
+                    </div>
+                    <div style="display:inline-block;">
+                        <input type="text" class="form-control" id="month6" placeholder="Enter units..." />
+                    </div>
+                </div>
+
+                <div style="display:block;margin: 15px 0px 10px 0px;text-align: center;margin-bottom: 10px;">
+                    <center>
+                        <button type="submit" class="btn btn_light_blue" id="submit" ng-click="monthly_usage_details()">
+                            Submit &nbsp;<i class="fa fa-arrow-circle-right"></i>
+                        </button>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
+
+<script>
+    var input = document.getElementById("month3");
+    input.addEventListener("keyup", function (event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            document.getElementById("submit").click();
+        }
+    });
+
+    var ElectricityUser = angular.module("ElectricityUser", []);
+    ElectricityUser.controller("UserController", function ($scope, $timeout, $rootScope, $window, $http) {
+        $scope.monthly_usage_details = function monthly_usage_details() {
+            var month1 = document.getElementById("month1").value;
+            var month2 = document.getElementById("month2").value;
+            var month3 = document.getElementById("month3").value;
+            var month4 = document.getElementById("month4").value;
+            var month5 = document.getElementById("month5").value;
+            var month6 = document.getElementById("month6").value;
+            var month_val1 = document.getElementById("month_val1").innerText;
+            var month_val2 = document.getElementById("month_val2").innerText;
+            var month_val3 = document.getElementById("month_val3").innerText;
+            var month_val4 = document.getElementById("month_val4").innerText;
+            var month_val5 = document.getElementById("month_val5").innerText;
+            var month_val6 = document.getElementById("month_val6").innerText;
+            month_val1 = month_val1.substring((month_val1.length - 9), (month_val1.length - 2));
+            month_val2 = month_val2.substring((month_val2.length - 9), (month_val2.length - 2));
+            month_val3 = month_val3.substring((month_val3.length - 9), (month_val3.length - 2));
+            month_val4 = month_val4.substring((month_val4.length - 9), (month_val4.length - 2));
+            month_val5 = month_val5.substring((month_val5.length - 9), (month_val5.length - 2));
+            month_val6 = month_val6.substring((month_val6.length - 9), (month_val6.length - 2));
+
+            if (month1 != "" && month2 != "" && month3 != "") {
+                $http({
+                    url: '/previousMonths',
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    data: { "month1": month1, "month2": month2, "month3": month3, "month4": month4, "month5": month5, "month6": month6, "month_val1": month_val1, "month_val2": month_val2, "month_val3": month_val3, "month_val4": month_val4, "month_val5": month_val5, "month_val6": month_val6 }
+                }).then(function (data) {
+                    var monthly_result = data.data.result;
+                    var status = data.data.result.status;
+                    var error = data.data.result.error;
+                    if (status == "1") {
+                        alert("Data Updated Successfully!");
+                        window.location.href = 'load_user_details';
+                    }
+                    else if (status == "0") {
+                        document.getElementById("month1").value = "";
+                        document.getElementById("month2").value = "";
+                        document.getElementById("month3").value = "";
+                        document.getElementById("month4").value = "";
+                        document.getElementById("month5").value = "";
+                        document.getElementById("month6").value = "";
+                        alert("Something Went Wrong!");
+                    }
+                });
+            }
+            else {
+                document.getElementById("month1").value = "";
+                document.getElementById("month2").value = "";
+                document.getElementById("month3").value = "";
+                document.getElementById("month4").value = "";
+                document.getElementById("month5").value = "";
+                document.getElementById("month6").value = "";
+                return alert("Please fill-up all the fields!");
+            }
+        }
+    });  
+</script>
+
+<style type="text/css">
+    body::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        opacity: 1;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background-size: cover;
+        min-height: 100%;
+        min-width: 100%;
+    }
+
+    ul {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgb(59, 65, 78);
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        flex-flow: column;
+    }
+
+    li {
+        float: right;
+    }
+
+    li a {
+        display: block;
+        color: rgb(153, 153, 153);
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+
+    /* Change the link color to #111 (black) on hover */
+    li a:hover {
+        color: rgb(255, 255, 255);
+    }
+
+    li a:focus {
+        color: aliceblue;
+    }
+
+    .nbar {
+        top: 0px;
+        left: 0px;
+        bottom: 0px;
+        width: 102px;
+        background-color: rgb(59, 65, 78);
+        position: fixed;
+        text-align: center;
+        z-index: 444;
+        transition: transform 0.4s ease 0s;
+    }
+
+    .navbar-logo {
+        display: flex;
+        position: absolute;
+        -webkit-box-align: center;
+        transform: translateY(10%);
+        transform: translateX(10%);
+        align-items: center;
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        flex-flow: column;
+    }
+
+    .navbar-logout {
+        position: absolute;
+        top: 90%;
+        transform: translateY(-50%);
+        transform: translateX(65%);
+        background-color: rgb(59, 65, 78);
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        flex-flow: column;
+        color: rgb(243, 71, 71);
+    }
+
+    .btn_light_blue {
+        background: rgb(60, 144, 228);
+        box-shadow: 0 9px 9px 0 #d4d4d5
+    }
+
+    .navbar-logout:hover {
+        color: rgb(255, 0, 0);
+    }
+
+    h1,
+    h2,
+    h3,
+    h5 {
+        margin: 5px;
+        font-weight: 400;
+    }
+
+    h4 {
+        font-family: Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 1.7em;
+        color: rgb(68, 68, 68);
+        font-weight: 300;
+    }
+
+    .role_heading {
+        color: black;
+        margin-bottom: 100px;
+        display: flex;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        -webkit-box-align: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+        /* padding: 0px 15px; */
+        font-weight: 400;
+        font-size: 24px;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .btn_light_blue {
+        background: rgb(60, 144, 228);
+        box-shadow: 0 9px 9px 0 #d4d4d5
+    }
+</style>

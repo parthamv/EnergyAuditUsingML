@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+
+<html>
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AppDashboard</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="static/thunder-favicon.png" type="image/png" />
+    <script src="static/angular.min.js"></script>
+    <script src="static/UserLogin.js"></script>
+</head>
+
+<body class="main">
+    <div class="col-md-12" ng-app="ElectricityUser" ng-controller="UserController">
+        <div class="nbar">
+
+            <div style="display:block;" class="navbar-logo">
+                <img style="display:block;" src="static/lg1-navbar.png" />
+            </div>
+            <ul>
+                <li>
+                    <a href="/load_user_details">
+                        <i style="display:block;" id="input-icon" class="fa fa-home fa-2x"></i> Home
+                    </a>
+                </li>
+                <li id="notifications">
+                    <a ng-click="showNotification_ng()">
+                        <i style="display:block;" id="notification_icon" class="fa fa-bell fa-2x"></i>
+                        <label style="display:block" id="count_notify"> </label>
+                        <span id="notification_text">Notifications</span>
+                    </a>
+                </li>
+                <li id="recommendation">
+                    <a ng-click="showRecommendation_ng()">
+                        <i style="display:block;" id="recommendation_icon" class="fa fa-superpowers fa-2x"></i>
+                        <label style="display:block" id="count_recommend"> </label>
+                        <span id="recommendation_text">Recommend</span>
+                    </a>
+                </li>
+                <li id="modify">
+                    <!-- <a ng-click="showModify_ng()"> -->
+                    <a onclick="showmodify()">
+                        <i style="display:block;" id="modify_icon" class="fa fa-book fa-2x"></i>
+                        <span id="modify_text">Modify</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/change_password">
+                        <i style="display:block;" id="input-icon" class="fa fa-key fa-2x"></i> Password
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i style="display:block;" id="input-icon" class="fa fa-book fa-2x"></i> FAQ
+                    </a>
+                </li>
+            </ul>
+            <div>
+                <a href="/" style="display:block;" class="navbar-logout">
+                    <i style="display:block;" id="input-icon" class="fa fa-remove fa-2x"></i> Logout
+                </a>
+            </div>
+        </div>
+
+        <div class="cards-layout">
+            <center>
+                <div class="role-heading" style="display: inline-block;">
+                    <h4>Electricity Reading</h4>
+                </div>
+                <div style="display: inline-block;font-size: large;transform: translateX(100px);">
+                    <div>
+                        <span style="background-color: lightsalmon;color: lightsalmon;"><lable>---</lable></span>
+                        <lable>Summer</lable><br>
+                    </div>
+                    <div>
+                        <span style="background-color: lightblue;color: lightblue;"><lable>---</lable></span>
+                        <lable>Winter</lable>
+                    </div>
+                </div>
+            </center>
+            <div class="row card_row bg_eee" id="col_header">
+                <div class="col-md-1">
+                    <label ng-click="sort('CreatedOnForSort')">Month <span class="fa fa-sort"></span></label>
+                </div>
+                <div class="col-md-2">
+                    <label>Units</label>
+                </div>
+                <div class="col-md-1">
+                    <label>Room Wise Data</label>
+                </div>
+                <div class="col-md-2">
+                    <label>Max Units Limit</label>
+                </div>
+                <div class="col-md-2">
+                    <label>Cost</label>
+                </div>
+                <div class="col-md-2">
+                    <label>Predicted Units</label>
+                </div>
+                <div class="col-md-2">
+                    <label>Predicted Cost</label>
+                </div>
+            </div>
+            {% raw %}
+            <div class="row card_row margin-bottom-10" ng-repeat="elec in electricity">
+                <div class="col-md-1">
+                    <button type="button" id="btn_date_elec" class="btn btn_light_blue" ng-click="getDateElectricity(elec.month)"><span id="month_val">{{elec.month}}</span></button>
+                </div>
+                <div class="col-md-2">
+                    <span>{{elec.units}}</span>
+                </div>
+                <div class="col-md-1">
+                    <button type="button" id="btn_room" class="btn btn_light_blue" ng-click="getRoomElectricity(elec.month)"> 
+                        <span>{{elec.rooms}}</span></button>
+                </div>
+                <div class="col-md-2">
+                    <span>{{elec.max_units}}</span>
+                </div>
+                <div class="col-md-2 ">
+                    <span>{{elec.cost}}</span>
+                </div>
+                <div class="col-md-2 ">
+                    <span>{{elec.predicted_units}}</span>
+                </div>
+                <div class="col-md-2 ">
+                    <span>{{elec.predicted_cost}}</span>
+                </div>
+            </div>
+            {% endraw %}
+        </div>
+
+        <div class="modal fade" id="date_modal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Daily Electricity Usage</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row card_row bg_eee" id="col_header">
+                            <div class="col-md-3">
+                                <label ng-click="sort('CreatedOnForSort')">Date <span class="fa fa-sort"></span></label>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Units</label>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Max Units Limit</label>
+                            </div>
+
+                        </div>
+                        {% raw %}
+
+                        <div class="row card_row margin-bottom-10" ng-repeat="date_elec in message">
+                            <div class="col-md-3">
+                                <span>{{date_elec.date}}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <span>{{date_elec.units}}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <span>{{date_elec.max_units}}</span>
+                            </div>
+                        </div>
+                        {% endraw %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="message_modal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Notifications</h4>
+                    </div>
+                    <div class="modal-body">
+                        {% raw %}
+                        <div class="row card_row margin-bottom-10" ng-repeat="message in message_data">
+                            <div class="col-md-12">
+                                <span>{{message.message}}</span>
+                            </div>
+                        </div>
+                        {% endraw %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="room_modal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Room Wise Electricity Usage</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row card_row bg_eee" id="col_header">
+                            <div class="col-md-3">
+                                <label>Room Name <span class="fa fa-sort"></span></label>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Units </label>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Predicted Units</label>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Max Units Limit</label>
+                            </div>
+                        </div>
+                        {% raw %}
+                        <div class="row card_row margin-bottom-10" ng-repeat="room_elec in room_electricity">
+                            <div class="col-md-3">
+                                <span>{{room_elec.name}}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <span>{{room_elec.current_units}}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <span>{{room_elec.predicted_units}}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <span>{{room_elec.max_pred_units}}</span>
+                            </div>
+                        </div>
+                        {% endraw %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="recommendation_modal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Monthly Usage recommendation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row card_row bg_eee" id="col_header">
+                            <div class="col-md-3">
+                                <label>Room Name <span class="fa fa-sort"></span></label>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Appliance </label>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Hours</label>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Units</label>
+                            </div>
+                        </div>
+                        {% raw %}
+                        <div class="row card_row margin-bottom-10" ng-repeat="room_rec in recommendation_data">
+                            <div class="col-md-3">
+                                <span>{{room_rec.room_name}}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <span>{{room_rec.appliance_type}}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <span>{{room_rec.hours}}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <span>{{room_rec.reduction_units}}</span>
+                            </div>
+                        </div>
+                        {% endraw %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    var month_elec;
+    var ElectricityUser = angular.module("ElectricityUser", []);
+    // $http({
+    //     url: '/getNotificationCount',
+    //     method: "POST",
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    // }).then(function(data) {
+    //     $scope.message_data = data.data.result;
+    //     var i = $scope.message_data.length;
+    //     console.log("i", i);
+    //     if (i > 0) {
+    //         document.getElementById("notification_icon").style.color = "red";
+    //         document.getElementById("count_notify").style.color = "red";
+    //         document.getElementById("count_notify").innerText = i;
+    //         document.getElementById("notification_text").style.color = "red";
+    //     }
+    // });
+    ElectricityUser.controller("UserController", function($scope, $timeout, $rootScope, $window, $http) {
+
+        function notifications_icon() {
+
+        }
+
+        function recommendation_icon() {
+            // $http({
+            //     url: '/getRecommendationCount_recommend',
+            //     method: "POST",
+            //     headers: { 'Content-Type': 'application/json' },
+            // }).then(function (data) {
+            //     $scope.message_data = data.data.result;
+            //     // var i = $scope.message_data["count_recommend"]
+            //     var i=1;
+            //     if (i > 0) {
+            //         document.getElementById("recommendation_icon").style.color = "red";
+            //         document.getElementById("count_recommend").style.color = "red";
+            //         document.getElementById("count_recommend").innerText = i;
+            //         document.getElementById("recommendation_text").style.color = "red";
+            //     }
+            // });
+            var i = 1;
+            if (i > 0) {
+                document.getElementById("recommendation_icon").style.color = "red";
+                document.getElementById("count_recommend").style.color = "red";
+                document.getElementById("count_recommend").innerText = i;
+                document.getElementById("recommendation_text").style.color = "red";
+            }
+        }
+
+        $scope.electricity = [];
+
+        function date_mod() {
+            $('#date_modal').modal({
+                backdrop: 'static',
+                keyboard: false
+            })
+        }
+
+        $('#btn_close').click(function() {
+            $('#lang_modal').modal('hide');
+        });
+
+        function getDetails() {
+            $http({
+                url: '/getMonthDetails',
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(function(data) {
+                $scope.electricity = data.data.result;
+                //console.log(data.data.result)                
+            });
+        }
+
+        getDetails();
+        notifications_icon();
+        recommendation_icon()
+
+        $scope.showNotification_ng = function showNotification_ng() {
+            $('#message_modal').modal({
+                backdrop: 'static',
+                keyboard: false
+            })
+
+            document.getElementById("notification_icon").style.color = "white";
+            document.getElementById("count_notify").style.color = "white";
+            document.getElementById("notification_text").style.color = "white";
+            $http({
+                url: '/getNotification',
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(function(data) {
+                $scope.message_data = data.data.result;
+                //console.log(data.data.result)
+                document.getElementById("notification_icon").style.color = "gray";
+                document.getElementById("count_notify").style.color = "gray";
+                document.getElementById("count_notify").innerText = "";
+                document.getElementById("notification_text").style.color = "gray";
+            });
+        }
+
+        $scope.showRecommendation_ng = function showRecommendation_ng() {
+            $('#recommendation_modal').modal({
+                backdrop: 'static',
+                keyboard: false
+            })
+
+            document.getElementById("recommendation_icon").style.color = "white";
+            document.getElementById("count_recommend").style.color = "white";
+            document.getElementById("recommendation_text").style.color = "white";
+            $http({
+                url: '/getRecommendation',
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(function(data) {
+                $scope.recommendation_data = data.data.result;
+                //console.log(data.data.result)
+                document.getElementById("recommendation_icon").style.color = "gray";
+                document.getElementById("count_recommend").style.color = "gray";
+                document.getElementById("count_recommend").innerText = "";
+                document.getElementById("recommendation_text").style.color = "gray";
+            });
+        }
+
+
+
+        $scope.getDateElectricity = function getDateElectricity(month) {
+            $('#date_modal').modal({
+                backdrop: 'static',
+                keyboard: false
+            })
+            $http({
+                url: '/getDateDetails',
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    "month": month
+                }
+            }).then(function(data) {
+                $scope.message = data.data.result;
+                // console.log(data.data.result)
+            });
+        }
+
+        $scope.getRoomElectricity = function getRoomElectricity(month) {
+            $http({
+                url: '/getRoomDetails',
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    "month": month
+                }
+            }).then(function(data) {
+                $scope.room_electricity = data.data.result;
+                // console.log(data.data.result)
+            });
+            console.log("room wise month: ", month);
+            $('#room_modal').modal({
+                backdrop: 'static',
+                keyboard: false
+            })
+        }
+    });
+
+    function showmodify() {
+        window.location.href = 'showModify';
+    }
+</script>
+
+<style type="text/css">
+    .list {
+        flex: 0 0 20rem;
+    }
+    
+    .label {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 0;
+        color: aliceblue;
+        font-size: 1.25rem;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.25s linear;
+    }
+    
+    .label::before {
+        display: inline-block;
+        content: "";
+        height: 1.125rem;
+        width: 1.125rem;
+        margin-right: 0.625rem;
+        border: 0.5rem solid aliceblue;
+        border-radius: 50%;
+        transition: all 0.25s linear;
+    }
+    
+    body::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        opacity: 1;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background-size: cover;
+        min-height: 100%;
+        min-width: 100%;
+    }
+    
+    .role-heading {
+        color: black;
+        margin-bottom: 45px;
+        display: flex;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        -webkit-box-align: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+        padding: 0px 15px;
+        font-weight: 400;
+        font-size: 24px;
+        -webkit-font-smoothing: antialiased;
+    }
+    
+    ul {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgb(59, 65, 78);
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        flex-flow: column;
+    }
+    
+    li {
+        float: right;
+    }
+    
+    li a {
+        display: block;
+        color: rgb(153, 153, 153);
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+    /* Change the link color to #111 (black) on hover */
+    
+    li a:hover {
+        color: rgb(255, 255, 255);
+    }
+    
+    li a:focus {
+        color: aliceblue;
+    }
+    
+    .nbar {
+        top: 0px;
+        left: 0px;
+        bottom: 0px;
+        width: 112px;
+        background-color: rgb(59, 65, 78);
+        position: fixed;
+        text-align: center;
+        z-index: 444;
+        transition: transform 0.4s ease 0s;
+    }
+    
+    .navbar-logo {
+        display: flex;
+        position: absolute;
+        -webkit-box-align: center;
+        transform: translateY(10%);
+        transform: translateX(10%);
+        align-items: center;
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        flex-flow: column;
+    }
+    
+    .navbar-logout {
+        position: absolute;
+        top: 90%;
+        transform: translateY(-50%);
+        transform: translateX(65%);
+        background-color: rgb(59, 65, 78);
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        flex-flow: column;
+        color: rgb(243, 71, 71);
+    }
+    
+    .btn_light_blue {
+        background: rgb(60, 144, 228);
+        box-shadow: 0 9px 9px 0 #d4d4d5
+    }
+    
+    .cards-layout {
+        position: absolute;
+        height: calc(100% - 40px);
+        width: calc(100% - 130px);
+        min-width: 320px;
+        margin-left: 102px;
+        background: rgb(250, 250, 250);
+        padding-left: 30px;
+    }
+    
+    .navbar-logout:hover {
+        color: rgb(255, 0, 0);
+    }
+    
+    .card_row {
+        box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+        margin-bottom: 5px;
+        padding: 10px 0px 10px 0px;
+    }
+    
+    .bg_eee {
+        background: #eee !important;
+        text-align: center;
+    }
+    
+    .row {
+        width: 90%;
+        margin-left: 5%;
+        text-align: center;
+    }
+    
+    .col_title {
+        widows: 10%;
+        display: inline-flex;
+    }
+    
+    .cards-container {
+        max-width: 1000px;
+        display: flex;
+        padding: 1em;
+        -webkit-box-pack: justify;
+        /* justify-content: space-between; */
+        justify-content: space-evenly;
+        -webkit-box-align: center;
+        align-items: center;
+        margin: 0px auto;
+        flex-flow: row wrap;
+    }
+    
+    .date_modal {
+        width: 90% !important;
+    }
+    
+    h1,
+    h2,
+    h3,
+    h5 {
+        margin: 5px;
+        font-weight: 400;
+    }
+    
+    h4 {
+        font-family: Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 1.7em;
+        color: rgb(68, 68, 68);
+        font-weight: 300;
+    }
+    
+    th {
+        font-family: "Open Sans Condensed", "Open Sans", helvetica, sans-serif;
+        text-align: right;
+        font-weight: 400;
+        width: 50%;
+        padding: 0.25em 0.5em 0;
+        font-size: 1.2em;
+    }
+    
+    td {
+        font-size: 1.3em;
+        color: black;
+        font-weight: 500;
+        width: 50%;
+        padding: 0.25em 0.5em 0;
+        word-wrap: none;
+        overflow-wrap: initial;
+    }
+    
+    .message_modal {
+        margin: 40% 90% 10% 10%;
+    }
+</style>

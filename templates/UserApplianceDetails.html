@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AppDashboard</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="static/thunder-favicon.png" type="image/png" />
+    <script src="static/angular.min.js"></script>
+    <script src="static/UserLogin.js"></script>
+    <script src="static/ElectricityController.js"></script>
+</head>
+
+<body class="main">
+    <div class="col-md-12" ng-app="ElectricityUser" ng-controller="UserController">
+        <div class="nbar">
+
+            <div style="display:block;" class="navbar-logo">
+                <img style="display:block;" src="static/lg1-navbar.png" />
+            </div>
+            <ul>
+                <li><a href="#">
+                        <i style="display:block;" id="input-icon" class="fa fa-home fa-2x"></i>
+                        Home
+                    </a></li>
+                <li><a href="#">
+                        <i style="display:block;" id="input-icon" class="fa fa-key fa-2x"></i>
+                        Password
+                    </a></li>
+                <li><a href="#">
+                        <i style="display:block;" id="input-icon" class="fa fa-book fa-2x"></i>
+                        FAQ
+                    </a></li>
+            </ul>
+            <div>
+                <a href="#" style="display:block;" class="navbar-logout">
+                    <i style="display:block;" id="input-icon" class="fa fa-remove fa-2x"></i>
+                    Logout
+                </a>
+            </div>
+        </div>
+
+        <div class="cards-layout">
+
+
+            <div class="role-heading">
+                <h4>Appliance Details</h4>
+            </div>
+            <center>
+                <div class="" style="display: inline-block;width:300px">
+                    <button class="btn btn-success submit_details" type="button" ng-click="roomWiseCalculations()"
+                        style="width:100%;"><i class="glyphicon glyphicon-ok"></i>
+                        Submit</button>
+                </div>
+            </center>
+
+            <!-- STARTS HERE -->
+            <div class="container">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        House Details
+                    </div>
+                    <div class="panel-body">
+                        <div class="home">
+                            <div class="input-group control-group after_add_room homer"
+                                style="display:inline-block;width:90%;" id="1">
+                                <div class="panel panel-default" style="display: inline-block;">
+                                    <div class="panel-heading">Add Rooms</div>
+                                    <div class="panel-body">
+                                        <div class="room_type_name_class col-md-12 " id="room_type_class_id">
+                                            <div class="col-md-6"
+                                                style="margin: 15px 0px 10px 0px;display:inline-block;">
+                                                <div class="col-md-6">
+                                                    <label style="margin-top:5px;">Room Type </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <select id="type" style="margin-top:5px;width:100%;">
+                                                        <option value="bedroom">Bed Room</option>
+                                                        <option value="hall">Hall</option>
+                                                        <option value="kitchen">Kitchen</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6"
+                                                style="margin: 15px 0px 10px 0px;display:inline-block;">
+                                                <div class="col-md-6">
+                                                    <label style="margin-top:5px;">Room name </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" id="name"
+                                                        ng-model="EventName" name="EventName" placeholder="Room Name" />
+                                                </div>
+                                            </div>
+                                            <div class="appliance_list after-add-more-appliance">
+                                                <div class="col-md-12"
+                                                    style="margin: 15px 0px 10px 0px;display:inline-block;">
+                                                    <div class="col-md-4">
+                                                        <div class="col-md-6">
+                                                            <label style="margin-top:5px;">Appliance Type </label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <select id="apptype" style="margin-top:5px;width:100%;">
+                                                                <option value="none">---Select---</option>
+                                                                <option value="fan">Fan</option>
+                                                                <option value="light">Light</option>
+                                                                <option value="ac">Air Conditioner</option>
+                                                                <option value="television">Television</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="col-md-5">
+                                                            <label style="margin-top:5px;">Hours Used(App) </label>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <input type="number" class="form-control" id="apphrs"
+                                                                ng-model="EventName" name="EventName"
+                                                                placeholder="Time in Hrs" />
+                                                        </div>
+                                                        <div class="input-group-btn col-md-2">
+                                                            <button class="btn btn-success add-more-appliance"
+                                                                type="button"><i class="glyphicon glyphicon-plus"></i>
+                                                                Add</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group-btn col-md-2"
+                                    style="display: inline-block;float:right;transform: translate(-30px,70px);">
+                                    <button class="btn btn-success add-more-room" type="button"><i
+                                            class="glyphicon glyphicon-plus"></i> Add Room</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Misc Section -->
+
+                        <div class="input-group control-group" style="display:inline-block;width:90%;">
+                            <div class="panel panel-default" style="display: inline-block;">
+                                <div class="panel-heading">Add Other Components</div>
+                                <div class="panel-body">
+                                    <div class="room_type_name_class col-md-12 " id="room_type_class_id">
+                                        <div class="appliance_list after-add-more-components">
+                                            <div class="col-md-12"
+                                                style="margin: 15px 0px 10px 0px;display:inline-block;">
+                                                <div class="col-md-4">
+                                                    <div class="col-md-6">
+                                                        <label style="margin-top:5px;">Appliance Type </label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <select style="margin-top:5px;width:100%;">
+                                                            <option value="fan">Washing Machine</option>
+                                                            <option value="light">Iron Box</option>
+                                                            <option value="ac">Heater</option>
+                                                            <option value="fridge">Refrigerator</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="col-md-5">
+                                                        <label style="margin-top:5px;">Hours Used(App) </label>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <input type="text" class="form-control" id="EventName"
+                                                            ng-model="EventName" name="EventName"
+                                                            placeholder="Time in Hrs" />
+                                                    </div>
+                                                    <div class="input-group-btn col-md-2">
+                                                        <button class="btn btn-success add-more-components"
+                                                            type="button"><i class="glyphicon glyphicon-plus"></i>
+                                                            Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Misc Section Ends -->
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- ENDS HERE -->
+
+        </div>
+
+        <!-- Copy Add More Components -->
+        <div class="copy-components_list-hide hide">
+            <div class="copy-components_list homerin">
+                <div class="col-md-12" style="margin: 15px 0px 10px 0px;display:inline-block;">
+                    <div class="col-md-4">
+                        <div class="col-md-6">
+                            <label style="margin-top:5px;">Appliance Type </label>
+                        </div>
+                        <div class="col-md-6">
+                            <select id="compAppType" style="margin-top:5px;width:100%;">
+                                <option value="fan">Washing Machine</option>
+                                <option value="light">Iron Box</option>
+                                <option value="ac">Heater</option>
+                                <option value="fridge">Refrigerator</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-5">
+                            <label style="margin-top:5px;">Hours Used(App) </label>
+                        </div>
+                        <div class="col-md-5">
+                            <input type="number" class="form-control" id="comphrs" ng-model="EventName" name="EventName"
+                                placeholder="Time in Hrs" />
+                        </div>
+                        <div class="input-group-btn col-md-2" style="display:inline-block;">
+                            <button class="btn btn-danger remove-components" type="button"><i
+                                    class="glyphicon glyphicon-remove"></i>
+                                Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Add More Components -->
+
+        <!-- Copy Of Appliance List -->
+        <div class="copy-appliance_list-hide hide">
+            <div class="copy-appliance_list">
+                <div class="col-md-12" style="margin: 15px 0px 10px 0px;display:inline-block;">
+                    <div class="col-md-4">
+                        <div class="col-md-6">
+                            <label style="margin-top:5px;">Appliance Type </label>
+                        </div>
+                        <div class="col-md-6">
+                            <select style="margin-top:5px;width:100%;">
+                                <option value="none">---Select---</option>
+                                <option value="fan">Fan</option>
+                                <option value="light">Light</option>
+                                <option value="ac">Air Conditioner</option>
+                                <option value="television">Television</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-5">
+                            <label style="margin-top:5px;">Hours Used(App) </label>
+                        </div>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" id="EventName" ng-model="EventName" name="EventName"
+                                placeholder="Time in Hrs" />
+                        </div>
+                        <div class="input-group-btn col-md-2" style="display:inline-block;">
+                            <button class="btn btn-danger remove-appliance" type="button"><i
+                                    class="glyphicon glyphicon-remove"></i>
+                                Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- End of copy Appliance List -->
+
+        <!-- Copy Of Room -->
+
+        <!-- End of Copy Room -->
+
+    </div>
+</body>
+
+</html>
+
+<script>
+    function date_mod() {
+        $('#date_modal').modal({
+            backdrop: 'static',
+            keyboard: false
+        })
+    }
+
+    $('#btn_close').click(function () {
+        $('#lang_modal').modal('hide');
+    });
+
+    $(document).ready(function () {
+        $(".add-more-appliance").click(function () {
+            var html = $(".copy-appliance_list-hide").html();
+            $(".after-add-more-appliance").after(html);
+        });
+
+        $("body").on("click", ".remove-appliance", function () {
+            $(this).parents(".copy-appliance_list").remove();
+        });
+
+        $(".add-more-room").click(function () {
+            var html = "<div class='copy_room_hide homer' id='room'><div class='add_room_copy'><div class='panel panel-default' style='display: inline-block;'><div class='panel-heading'>Add Rooms</div><div class='panel-body'><div class='room_type_name_class col-md-12 ' id='room_type_class_id'><div class='col-md-6' style='margin: 15px 0px 10px 0px;display:inline-block;'><div class='col-md-6'><label style='margin-top:5px;'>Room Type </label></div><div class='col-md-6'><select id='type' style='margin-top:5px;width:100%;'><option value='bedroom'>Bed Room</option><option value='hall'>Hall</option><option value='kitchen'>Kitchen</option></select></div></div> <div class='col-md-6' style='margin: 15px 0px 10px 0px;display:inline-block;'><div class='col-md-6'><label style='margin-top:5px;'>Room name </label></div><div class='col-md-6'><input type='text' id='name' class='form-control' id='EventName' ng-model='EventName' name='EventName' placeholder='Room Name' /></div></div><div class='appliance_list after-add-more-appliance-copy'><div class='col-md-12' style='margin: 15px 0px 10px 0px;display:inline-block;'><div class='col-md-6'><div class='col-md-6'><label style='margin-top:5px;'>Appliance Type </label></div><div class='col-md-4'><select id='apptype' style='margin-top:5px;width:100%;'><option value='none'>---Select---</option><option value='fan'>Fan</option><option value='light'>Light</option><option value='ac'>Air Conditioner</option><option value='television'>Television</option></select></div></div><div class='col-md-6'><div class='col-md-5'><label style='margin-top:5px;'>Hours Used(App) </label></div><div class='col-md-5'><input type='number' id='apphrs' class='form-control' id='EventName' ng-model='EventName' name='EventName' placeholder='Time in Hrs' /></div><label class='hide' id='rno'></label><div class='input-group-btn col-md-2'><button class='btn btn-success add-more-appliance-copy' onclick='add_more_app_copy()' type='button'><i class='glyphicon glyphicon-plus'></i> Add</button></div></div></div></div></div></div></div><div class='input-group-btn col-md-2' style='display:inline-block;float:right;transform: translate(-130px,70px);'><button class='btn btn-danger remove-room' type='button'><i class='glyphicon glyphicon-remove'></i>Remove</button></div></div></div>";
+            var len = document.getElementsByClassName('homer').length;
+            // console.log(len);
+            document.getElementsByClassName("home")[0].insertAdjacentHTML('beforeend', html);
+            let x = document.getElementsByClassName('homer').length;
+            document.getElementsByClassName('homer')[x - 1].id = x;
+            var drew = document.getElementsByClassName('homer')[x - 1];
+            //drew.getElementsByTagName("input")[0].value = drew.id;
+        });
+
+        $("body").on("click", ".remove-room", function () {
+            let x = document.getElementsByClassName('homer').length;
+            var n = ($(this).parents(".add_room_copy").parents(".copy_room_hide").get()[0].id);
+            console.log("n: " + n)
+            for (var i = n; i <= x - 1; i++) {
+                console.log(document.getElementsByClassName('homer')[i].id);
+                var drew = document.getElementsByClassName('homer')[i];
+                //drew.getElementsByTagName("input")[0].value = drew.id-1;
+            }
+            $(this).parents(".add_room_copy").parents(".copy_room_hide").get()[0].remove();
+        });
+
+        // $(".add-more-appliance-copy").click(function () {
+        //     console.log("here");
+        //     var html = $(".copy-appliance_list-hide").html();
+        //     $(".after-add-more-appliance-copy").after(html);
+        // });
+
+        $(".add-more-components").click(function () {
+            var html = $(".copy-components_list-hide").html();
+            $(".after-add-more-components").after(html);
+        });
+
+        $("body").on("click", ".remove-components", function () {
+            $(this).parents(".copy-components_list").remove();
+        });
+    });
+
+    function add_more_app_copy() {
+        console.log("here");
+        var html = $(".copy-appliance_list-hide").html();
+        $(".after-add-more-appliance-copy").after(html);
+    }
+    var ElectricityUser = angular.module("ElectricityUser", []);
+
+    ElectricityUser.controller("UserController", function ($scope, $timeout, $rootScope, $window, $http) {
+        $scope.roomWiseCalculations = function roomWiseCalculations(month) {
+            var room_details = {
+                "room1": {
+                    "name": "bedroom1",
+                    "appliance1": {
+                        "type": "fan",
+                        "hours": "8"
+                    },
+                    "appliance2": {
+                        "type": "light",
+                        "hours": "5"
+                    },
+                    "appliance3": {
+                        "type": "Air conditioner",
+                        "hours": "9"
+                    }
+                },
+                "room2": {
+                    "name": "bedroom2",
+                    "appliance1": {
+                        "type": "fan",
+                        "hours": "11"
+                    }
+                },
+                "room3": {
+                    "name": "hall",
+                    "appliance1": {
+                        "type": "fan",
+                        "hours": "10"
+                    },
+                    "appliance2": {
+                        "type": "fan",
+                        "hours": "3"
+                    },
+                    "appliance3": {
+                        "type": "light",
+                        "hours": "7"
+                    },
+                    "appliance4": {
+                        "type": "television",
+                        "hours": "9"
+                    }
+                },
+                "room4": {
+                    "name": "kitchen",
+                    "appliance1": {
+                        "type": "light",
+                        "hours": "3"
+                    }
+                },
+                "room5": {
+                    "name": "misc",
+                    "appliance1": {
+                        "type": "washing machine",
+                        "hours": "1"
+                    },
+                    "appliance2": {
+                        "type": "heater",
+                        "hours": "0.40"
+                    }
+                }
+            }
+
+            // var room_details = {
+            //     "room1": {
+            //         "name": "bedroom1",
+            //         "appliance1": {
+            //             "type": "fan",
+            //             "hours": "8"
+            //         },
+            //         "appliance2": {
+            //             "type": "light",
+            //             "hours": "6"
+            //         },
+            //         "appliance3": {
+            //             "type": "Air conditioner",
+            //             "hours": "6"
+            //         }
+            //     },
+            //     "room2": {
+            //         "name": "bedroom2",
+            //         "appliance1": {
+            //             "type": "fan",
+            //             "hours": "8"
+            //         },
+            //         "appliance2": {
+            //             "type": "light",
+            //             "hours": "8"
+            //         },
+            //         "appliance3": {
+            //             "type": "light",
+            //             "hours": "7"
+            //         },
+            //         "appliance4": {
+            //             "type": "Air conditioner",
+            //             "hours": "6"
+            //         }
+            //     },
+            //     "room3": {
+            //         "name": "hall",
+            //         "appliance1": {
+            //             "type": "fan",
+            //             "hours": "8"
+            //         },
+            //         "appliance2": {
+            //             "type": "fan",
+            //             "hours": "6"
+            //         },
+            //         "appliance3": {
+            //             "type": "light",
+            //             "hours": "6"
+            //         },
+            //         "appliance4": {
+            //             "type": "light",
+            //             "hours": "6"
+            //         },
+            //         "appliance5": {
+            //             "type": "television",
+            //             "hours": "6"
+            //         }
+            //     },
+            //     "room4": {
+            //         "name": "kitchen",
+            //         "appliance1": {
+            //             "type": "light",
+            //             "hours": "8"
+            //         }
+            //     },
+            //     "room5": {
+            //         "name": "misc",
+            //         "appliance1": {
+            //             "type": "washing machine",
+            //             "hours": "1"
+            //         },
+            //         "appliance2": {
+            //             "type": "heater",
+            //             "hours": "1"
+            //         },
+            //         "appliance3": {
+            //             "type": "light",
+            //             "hours": "2"
+            //         },
+            //         "appliance4": {
+            //             "type": "iron box",
+            //             "hours": "0.30"
+            //         }
+            //     }
+            // }
+            console.log("here");
+            $http({
+                url: '/roomWiseCalculation',
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                data: { "room_details": room_details }
+            }).then(function (data) {
+                $scope.room_details = data.data.result;
+                // console.log(data.data.result)
+            });
+            window.location.href = 'previous_usage';
+        }
+    });    
+</script>
+
+<style type="text/css">
+    .list {
+        flex: 0 0 20rem;
+    }
+
+    .label {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 0;
+        color: aliceblue;
+        font-size: 1.25rem;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.25s linear;
+    }
+
+    .label::before {
+        display: inline-block;
+        content: "";
+        height: 1.125rem;
+        width: 1.125rem;
+        margin-right: 0.625rem;
+        border: 0.5rem solid aliceblue;
+        border-radius: 50%;
+        transition: all 0.25s linear;
+    }
+
+    body::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        opacity: 1;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background-size: cover;
+        min-height: 100%;
+        min-width: 100%;
+    }
+
+    .role-heading {
+        color: black;
+        margin-bottom: 45px;
+        display: flex;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        -webkit-box-align: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+        padding: 0px 15px;
+        font-weight: 400;
+        font-size: 24px;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    ul {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgb(59, 65, 78);
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        flex-flow: column;
+    }
+
+    li {
+        float: right;
+    }
+
+    li a {
+        display: block;
+        color: rgb(153, 153, 153);
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+
+    /* Change the link color to #111 (black) on hover */
+    li a:hover {
+        color: rgb(255, 255, 255);
+    }
+
+    li a:focus {
+        color: aliceblue;
+    }
+
+    .nbar {
+        top: 0px;
+        left: 0px;
+        bottom: 0px;
+        width: 102px;
+        background-color: rgb(59, 65, 78);
+        position: fixed;
+        text-align: center;
+        z-index: 444;
+        transition: transform 0.4s ease 0s;
+    }
+
+    .navbar-logo {
+        display: flex;
+        position: absolute;
+        -webkit-box-align: center;
+        transform: translateY(10%);
+        transform: translateX(10%);
+        align-items: center;
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        flex-flow: column;
+    }
+
+    .navbar-logout {
+        position: absolute;
+        top: 90%;
+        transform: translateY(-50%);
+        transform: translateX(65%);
+        background-color: rgb(59, 65, 78);
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        flex-flow: column;
+        color: rgb(243, 71, 71);
+    }
+
+    .btn_light_blue {
+        background: rgb(60, 144, 228);
+        box-shadow: 0 9px 9px 0 #d4d4d5
+    }
+
+    .cards-layout {
+
+        position: absolute;
+        height: calc(100% - 40px);
+        width: calc(100% - 130px);
+        min-width: 320px;
+        margin-left: 102px;
+        background: rgb(250, 250, 250);
+        padding-left: 30px;
+    }
+
+    .navbar-logout:hover {
+        color: rgb(255, 0, 0);
+    }
+
+
+    h1,
+    h2,
+    h3,
+    h5 {
+        margin: 5px;
+        font-weight: 400;
+    }
+
+    h4 {
+        font-family: Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 1.7em;
+        color: rgb(68, 68, 68);
+        font-weight: 300;
+    }
+
+    .cards-container {
+        max-width: 1000px;
+        display: flex;
+        padding: 1em;
+        -webkit-box-pack: justify;
+        /* justify-content: space-between; */
+        justify-content: space-evenly;
+        -webkit-box-align: center;
+        align-items: center;
+        margin: 0px auto;
+        flex-flow: row wrap;
+    }
+</style>
